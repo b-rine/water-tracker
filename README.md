@@ -1,1 +1,1 @@
-# water-tracker
+# Water Tracker
