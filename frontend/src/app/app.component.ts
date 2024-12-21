@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {WaterLog} from './waterLog';
+import {WaterService} from './water.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +9,24 @@ import { Component } from '@angular/core';
   standalone: false,
   styleUrl: './app.component.css'
 })
-export class AppComponent {
-  title = 'frontend';
+export class AppComponent implements OnInit {
+  public waterLogs: WaterLog[] = [];
+
+  constructor(private waterService: WaterService) {}
+
+  ngOnInit() {
+    this.getWaterLogs();
+  }
+
+  public getWaterLogs(): void {
+    this.waterService.getWater().subscribe(
+      (response: WaterLog[]) => {
+        this.waterLogs = response;
+        console.log(this.waterLogs);
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
 }
