@@ -1,3 +1,3 @@
-export interface WaterLogInterface {
+export interface WaterLog {
   amountLiters: number;
 }
