@@ -13,7 +13,7 @@ public class WaterLogRowMapper implements RowMapper<WaterLog> {
     @Override
     public WaterLog mapRow(@NonNull ResultSet rs, int rowNum) throws SQLException {
         WaterLog log = new WaterLog();
-        log.setAmountLiters(rs.getBigDecimal("liters"));
+        log.setAmountOunces(rs.getBigDecimal("ounces"));
         return log;
     }
 }

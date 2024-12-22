@@ -1,3 +1,3 @@
 export interface WaterLog {
-  amountLiters: number;
+  amountOunces: number;
 }

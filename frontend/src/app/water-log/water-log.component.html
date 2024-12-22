@@ -1,9 +1,34 @@
 <div class="water-log-container">
-    <div class="water-log-box">
+  <div class="water-log-box">
+    <div class="water-log-header">
       <h2>Water Intake</h2>
-      <div *ngFor="let waterLog of waterLogs" class="water-log-item">
-        <div>Amount: {{ waterLog.amountLiters}} liters</div>
+      <p>Your intake goal for today is: {{ dailyGoalOunces }} Ounces</p>
+    </div>
+
+    <!-- Water log items -->
+    <div *ngFor="let waterLog of waterLogs" class="water-log-item">
+      <div>Amount: {{ waterLog?.amountOunces }} ounces</div>
+      <div class="water-drop-container">
+        <div class="water-drop">
+          <div
+            class="water-fill"
+            [style.height.%]="(waterLog.amountOunces / dailyGoalOunces) * 100">
+          </div>
+        </div>
+        <div class="percentage">
+          {{ ((waterLog.amountOunces / dailyGoalOunces) * 100) | number: '1.0-0' }}%
+        </div>
       </div>
     </div>
+
+    <!-- Add water log form -->
+    <form (ngSubmit)="addLog()">
+      <div class="water-log-form">
+        <label for="amount">Amount (ounces)</label>
+        <input type="number" id="amount" name="amount"
+               [(ngModel)]="newWaterLog.amountOunces" required>
+      </div>
+      <button type="submit">Add Log</button>
+    </form>
   </div>
-  
+</div>

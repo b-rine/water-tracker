@@ -22,7 +22,7 @@ public class TrackerRepository {
     }
 
     public void addWaterLog(WaterLog log) {
-        String sql = "INSERT INTO water_db (liters) VALUES (?)";
-        jdbc.update(sql, log.getAmountLiters());
+        String sql = "INSERT INTO water_db (ounces) VALUES (?)";
+        jdbc.update(sql, log.getAmountOunces());
     }
 }

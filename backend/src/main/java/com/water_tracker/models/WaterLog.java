@@ -8,13 +8,13 @@ import java.math.BigDecimal;
 public class WaterLog {
 
     // private LocalDateTime dateAndTime;
-    private BigDecimal amountLiters;
+    private BigDecimal amountOunces;
 
-    public BigDecimal getAmountLiters() {
-        return this.amountLiters;
+    public BigDecimal getAmountOunces() {
+        return this.amountOunces;
     }
 
-    public void setAmountLiters(BigDecimal amountLiters) {
-        this.amountLiters = amountLiters;
+    public void setAmountOunces(BigDecimal amountOunces) {
+        this.amountOunces = amountOunces;
     }
 }
