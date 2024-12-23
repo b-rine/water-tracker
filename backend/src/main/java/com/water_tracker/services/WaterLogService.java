@@ -24,4 +24,8 @@ public class WaterLogService {
         trackerRepository.addWaterLog(log);
     }
 
+    public void deleteWaterLog(Integer id) {
+        trackerRepository.deleteWaterLog(id);
+    }
+
 }

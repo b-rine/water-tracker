@@ -5,18 +5,41 @@
       <p>Your intake goal for today is: {{ dailyGoalOunces }} Ounces</p>
     </div>
 
-    <!-- Water log items -->
-    <div *ngFor="let waterLog of waterLogs" class="water-log-item">
-      <div>Amount: {{ waterLog?.amountOunces }} ounces</div>
+    <!-- Toggle between tabs -->
+    <button (click)="toggleView()" class="toggle-btn">
+      {{ showLogs ? 'Show Water' : 'Show Logs' }}
+    </button>
+
+    <!-- Giant water drop -->
+    <div *ngIf="!showLogs" class="water-drop-giant">
       <div class="water-drop-container">
         <div class="water-drop">
           <div
             class="water-fill"
-            [style.height.%]="(waterLog.amountOunces / dailyGoalOunces) * 100">
+            [style.height.%]="(totalOunces / dailyGoalOunces) * 100">
           </div>
         </div>
         <div class="percentage">
-          {{ ((waterLog.amountOunces / dailyGoalOunces) * 100) | number: '1.0-0' }}%
+          {{ ((totalOunces / dailyGoalOunces) * 100) | number: '1.0-0' }}%
+        </div>
+      </div>
+    </div>
+
+    <!-- Water log items -->
+    <div *ngIf="showLogs">
+      <div *ngFor="let waterLog of waterLogs" class="water-log-item">
+        <div>Amount: {{ waterLog?.amountOunces }} ounces</div>
+        <div class="water-drop-container">
+          <div class="water-drop">
+            <div
+              class="water-fill"
+              [style.height.%]="(waterLog.amountOunces / dailyGoalOunces) * 100">
+            </div>
+          </div>
+          <div class="percentage">
+            {{ ((waterLog.amountOunces / dailyGoalOunces) * 100) | number: '1.0-0' }}%
+          </div>
+          <button (click)="deleteLog(waterLog.id)">Delete</button>
         </div>
       </div>
     </div>

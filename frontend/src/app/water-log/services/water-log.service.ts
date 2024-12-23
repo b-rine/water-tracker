@@ -20,4 +20,8 @@ export class WaterService {
     return this.http.post<WaterLog>(`${this.apiServerUrl}/tracker`, waterLog);
   }
 
+  public deleteWaterLog(logId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiServerUrl}/tracker/${logId}`);
+  }
+
 }

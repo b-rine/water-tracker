@@ -25,4 +25,9 @@ public class TrackerRepository {
         String sql = "INSERT INTO water_db (ounces) VALUES (?)";
         jdbc.update(sql, log.getAmountOunces());
     }
+
+    public void deleteWaterLog(Integer id) {
+        String sql = "DELETE FROM water_db WHERE id = ?";
+        jdbc.update(sql, id);
+    }
 }
