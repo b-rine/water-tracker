@@ -1,51 +1,47 @@
-<div class="container mx-auto p-4">
-  <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg p-6">
+<div class="container mx-auto p-4 pt-12">
+  <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg px-6 pt-6 pb-2">
     <div class="text-center mb-6">
-      <h2 class="text-2xl font-bold text-gray-800 mb-2">Water Intake</h2>
-      <p class="text-gray-600">Your intake goal for today is: {{ dailyGoalOunces }} Ounces</p>
+      <h2 class="text-5xl font-bold text-blue-600">{{ dailyGoalOunces }} oz</h2>
+      <p class="mt-2 text-gray-600">Completed <span class="font-bold">{{ ((totalOunces / dailyGoalOunces) * 100) | number: '1.0-0' }}%</span> of your goal</p>
     </div>
 
-    <!-- Toggle between tabs -->
-    <button (click)="toggleView()" 
+    <button (click)="toggleView()"
             class="w-full mb-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
       {{ showLogs ? 'Show Water' : 'Show Logs' }}
     </button>
 
-    <!-- Add Water Log form -->
     <form (ngSubmit)="addLog()" class="mb-4">
       <div class="flex items-center mb-4">
-        <input type="number" [(ngModel)]="newWaterLog.amountOunces" name="newLogOunces" 
+        <input type="number" [(ngModel)]="newWaterLog.amountOunces" name="newLogOunces"
                class="w-full px-4 py-2 border rounded mr-2" placeholder="Enter ounces" required>
-        <button type="submit" 
+        <button type="submit"
                 class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
-          Add Water Log
+          Add Water 
         </button>
       </div>
     </form>
 
-    <!-- Display preexisting water logs -->
-    <div *ngIf="showLogs" class="mb-4">
+    <div *ngIf="showLogs">
       <h3 class="text-xl font-bold text-gray-800 mb-2">Water Logs</h3>
       <ul>
-        <li *ngFor="let log of waterLogs" class="mb-2">
+        <li *ngFor="let log of waterLogs" class="mb-2 flex justify-between items-center">
           <span class="text-blue-600 font-bold">
-            {{ log.amountOunces }} 
+            {{ log.amountOunces }}
             {{ log.amountOunces === 1 ? 'Ounce' : 'Ounces' }}
           </span>
+          <button (click)="deleteLog(log.id)" 
+                  class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded text-sm">
+            Delete
+          </button>
         </li>
       </ul>
     </div>
 
-    <!-- Giant water drop -->
-    <div *ngIf="!showLogs" class="flex justify-center items-center">
-      <div class="text-center">
-        <div class="water-drop">
-          <div class="water-fill"
-               [style.height.%]="(totalOunces / dailyGoalOunces) * 100">
-          </div>
-        </div>
-        <div class="mt-4 text-2xl font-bold text-blue-600">
-          {{ ((totalOunces / dailyGoalOunces) * 100) | number: '1.0-0' }}%
+    <div *ngIf="!showLogs" class="flex justify-center items-center mb-2">
+      <div class="relative w-64 h-[420px] bg-gray-200 overflow-hidden mx-auto"
+            style="clip-path: path('M128 0 C128 0, 256 192, 256 288 A128 128 0 1 1 0 288 C0 192, 128 0, 128 0');">
+        <div class="absolute bottom-0 w-full bg-blue-500 transition-all duration-300 ease-in-out"
+              [style.height.%]="(totalOunces / dailyGoalOunces) * 100">
         </div>
       </div>
     </div>

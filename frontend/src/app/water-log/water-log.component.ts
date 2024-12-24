@@ -64,17 +64,24 @@ export class WaterLogComponent implements OnInit {
   }
 
   public deleteLog(logId: number): void {
+    console.log('Deleting log with ID:', logId);
+    console.log('Current logs:', this.waterLogs);
+    
     this.waterService.deleteWaterLog(logId).subscribe({
-      next: () => {
-        this.waterLogs = this.waterLogs.filter(log => log.id !== logId);
-        this.calculateTotalOunces();
-      },
-      error (error: HttpErrorResponse) {
-        alert(error.message);
-      },
-      complete: () => {
-        console.log('Deleting water log completed.');
-      }
+        next: () => {
+            this.waterLogs = this.waterLogs.filter(log => {
+                console.log('Checking log:', log);
+                return log.id !== logId;
+            });
+            console.log('Remaining logs:', this.waterLogs);
+            this.calculateTotalOunces();
+        },
+        error: (error: HttpErrorResponse) => {
+            alert(error.message);
+        },
+        complete: () => {
+            console.log('Deleting water log completed.');
+        }
     });
   }
 
