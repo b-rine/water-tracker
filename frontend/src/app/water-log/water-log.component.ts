@@ -43,11 +43,16 @@ export class WaterLogComponent implements OnInit {
   }
 
   public addLog(): void {
+    if (this.newWaterLog.amountOunces <= 0) {
+      return;
+    }
+
     this.waterService.addWaterLog(this.newWaterLog).subscribe({
       next: (response: WaterLog) => {
         this.waterLogs.push(response);
         this.calculateTotalOunces();
         this.newWaterLog = { id: 0, amountOunces: 0 };
+        history.pushState({}, '', '/tracker');
       },
       error (error: HttpErrorResponse) {
         alert(error.message);
