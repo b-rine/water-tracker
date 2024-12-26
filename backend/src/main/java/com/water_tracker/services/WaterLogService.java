@@ -20,8 +20,8 @@ public class WaterLogService {
         return trackerRepository.findAllLogs();
     }
 
-    public void addWaterLog(WaterLog log) {
-        trackerRepository.addWaterLog(log);
+    public WaterLog addWaterLog(WaterLog log) {
+        return trackerRepository.addWaterLog(log);
     }
 
     public void deleteWaterLog(Integer id) {

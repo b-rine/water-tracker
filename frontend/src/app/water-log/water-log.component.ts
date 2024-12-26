@@ -44,6 +44,7 @@ export class WaterLogComponent implements OnInit {
 
   public addLog(): void {
     if (this.newWaterLog.amountOunces <= 0) {
+      alert('Amount must be greater than 0.');
       return;
     }
 
@@ -91,5 +92,14 @@ export class WaterLogComponent implements OnInit {
 
   public toggleView(): void {
     this.showLogs = !this.showLogs;
+  }
+
+  public updateGoal(): void {
+    if (this.dailyGoalOunces <= 0) {
+      alert('Goal must be greater than 0.');
+      return;
+    }
+
+    console.log('Goal updated to:', this.dailyGoalOunces);
   }
 }

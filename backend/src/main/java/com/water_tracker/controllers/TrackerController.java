@@ -24,8 +24,7 @@ public class TrackerController {
 
     @PostMapping
     public WaterLog addWaterLog(@RequestBody WaterLog log) {
-        waterLogService.addWaterLog(log);
-        return log;
+        return waterLogService.addWaterLog(log);
     }
 
     @DeleteMapping("/{id}")

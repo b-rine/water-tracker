@@ -1,8 +1,11 @@
 package com.water_tracker.repositories;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.water_tracker.models.WaterLog;
@@ -21,9 +24,21 @@ public class TrackerRepository {
         return jdbc.query(sql, new WaterLogRowMapper());
     }
 
-    public void addWaterLog(WaterLog log) {
+    public WaterLog addWaterLog(WaterLog log) {
         String sql = "INSERT INTO water_db (ounces) VALUES (?)";
-        jdbc.update(sql, log.getAmountOunces());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbc.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, new String[] { "id" });
+            ps.setBigDecimal(1, log.getAmountOunces());
+            return ps;
+        }, keyHolder);
+
+        Number generateId = keyHolder.getKey();
+        if (generateId != null) {
+            log.setId(generateId.intValue());
+        }
+        return log;
     }
 
     public void deleteWaterLog(Integer id) {
