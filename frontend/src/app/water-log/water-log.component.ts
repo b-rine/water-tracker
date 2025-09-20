@@ -1,95 +1,187 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule for HTTP calls
-import { WaterService } from './services/water-log.service'; // Import your service
-import { WaterLog } from './models/water-log.model';
+import { HttpClientModule } from '@angular/common/http';
+import { WaterService } from './services/water-log.service';
+import { WaterLog, DailyGoal, DailySummary } from './models/water-log.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-water-log',
-  standalone: true, // Declare it as a standalone component
-  imports: [HttpClientModule, CommonModule, FormsModule], // Import necessary modules
+  standalone: true,
+  imports: [HttpClientModule, CommonModule, FormsModule],
   templateUrl: './water-log.component.html',
   styleUrls: ['./water-log.component.css']
 })
 export class WaterLogComponent implements OnInit {
   public showLogs: boolean = false;
+  public showSettings: boolean = false;
   public waterLogs: WaterLog[] = [];
+  public dailyGoal: DailyGoal | null = null;
   public dailyGoalOunces: number = 64;
   public newWaterLog: WaterLog = { id: 0, amountOunces: 0 };
   public totalOunces: number = 0;
+  public progressPercentage: number = 0;
+  public selectedDate: string = '';
+  public isLoading: boolean = false;
+  public errorMessage: string = '';
+  public newGoalAmount: number = 64;
 
-  constructor(private waterService: WaterService) {}
-
-  ngOnInit() {
-    this.getLogs();
+  constructor(private waterService: WaterService) {
+    this.selectedDate = this.formatDate(new Date());
   }
 
-  public getLogs(): void {
-    this.waterService.getWaterLogs().subscribe({
-      next: (response: WaterLog[]) => {
-        this.waterLogs = response;
-        this.calculateTotalOunces()
-        console.log(this.waterLogs);
+  ngOnInit() {
+    this.loadDailySummary();
+  }
+
+  public loadDailySummary(): void {
+    this.isLoading = true;
+    this.errorMessage = '';
+    
+    this.waterService.getDailySummary().subscribe({
+      next: (summary: DailySummary) => {
+        this.waterLogs = summary.logs;
+        this.dailyGoal = summary.goal;
+        this.totalOunces = summary.totalOunces;
+        this.progressPercentage = summary.progressPercentage;
+        this.dailyGoalOunces = summary.goal.goalOunces;
+        this.newGoalAmount = summary.goal.goalOunces;
+        this.isLoading = false;
       },
       error: (error: HttpErrorResponse) => {
-        alert(error.message);
+        this.errorMessage = 'Failed to load daily summary';
+        this.isLoading = false;
+        console.error('Error loading summary:', error);
+      }
+    });
+  }
+
+  public loadLogsByDate(): void {
+    if (!this.selectedDate) return;
+    
+    this.isLoading = true;
+    this.waterService.getLogsByDate(this.selectedDate).subscribe({
+      next: (logs: WaterLog[]) => {
+        this.waterLogs = logs;
+        this.calculateTotalOunces();
+        this.isLoading = false;
       },
-      complete: () => {
-        console.log('Fetching water logs completed.');
+      error: (error: HttpErrorResponse) => {
+        this.errorMessage = 'Failed to load logs for selected date';
+        this.isLoading = false;
       }
     });
   }
 
   public addLog(): void {
     if (this.newWaterLog.amountOunces <= 0) {
+      this.errorMessage = 'Please enter a valid amount';
       return;
     }
 
+    this.isLoading = true;
+    this.errorMessage = '';
+
     this.waterService.addWaterLog(this.newWaterLog).subscribe({
       next: (response: WaterLog) => {
-        this.waterLogs.push(response);
-        this.calculateTotalOunces();
+        // Reload the daily summary to get updated totals
+        this.loadDailySummary();
         this.newWaterLog = { id: 0, amountOunces: 0 };
-        history.pushState({}, '', '/tracker');
       },
-      error (error: HttpErrorResponse) {
-        alert(error.message);
-      },
-      complete: () => {
-        console.log('Adding water log completed.');
+      error: (error: HttpErrorResponse) => {
+        this.errorMessage = 'Failed to add water log';
+        this.isLoading = false;
       }
     });
   }
 
   public deleteLog(logId: number): void {
-    console.log('Deleting log with ID:', logId);
-    console.log('Current logs:', this.waterLogs);
-    
+    if (!confirm('Are you sure you want to delete this log?')) {
+      return;
+    }
+
+    this.isLoading = true;
     this.waterService.deleteWaterLog(logId).subscribe({
-        next: () => {
-            this.waterLogs = this.waterLogs.filter(log => {
-                console.log('Checking log:', log);
-                return log.id !== logId;
-            });
-            console.log('Remaining logs:', this.waterLogs);
-            this.calculateTotalOunces();
-        },
-        error: (error: HttpErrorResponse) => {
-            alert(error.message);
-        },
-        complete: () => {
-            console.log('Deleting water log completed.');
-        }
+      next: () => {
+        // Reload the daily summary to get updated totals
+        this.loadDailySummary();
+      },
+      error: (error: HttpErrorResponse) => {
+        this.errorMessage = 'Failed to delete water log';
+        this.isLoading = false;
+      }
+    });
+  }
+
+  public updateGoal(): void {
+    if (this.newGoalAmount <= 0) {
+      this.errorMessage = 'Please enter a valid goal amount';
+      return;
+    }
+
+    this.isLoading = true;
+    this.waterService.updateTodaysGoal(this.newGoalAmount).subscribe({
+      next: (goal: DailyGoal) => {
+        this.dailyGoal = goal;
+        this.dailyGoalOunces = goal.goalOunces;
+        this.showSettings = false;
+        this.loadDailySummary(); // Refresh to recalculate percentages
+      },
+      error: (error: HttpErrorResponse) => {
+        this.errorMessage = 'Failed to update goal';
+        this.isLoading = false;
+      }
     });
   }
 
   private calculateTotalOunces(): void {
     this.totalOunces = this.waterLogs.reduce((total, log) => total + log.amountOunces, 0);
+    this.progressPercentage = this.dailyGoalOunces > 0 ? 
+      Math.round((this.totalOunces / this.dailyGoalOunces) * 100) : 0;
   }
 
   public toggleView(): void {
     this.showLogs = !this.showLogs;
+  }
+
+  public toggleSettings(): void {
+    this.showSettings = !this.showSettings;
+  }
+
+  public formatTime(dateTimeString: string): string {
+    if (!dateTimeString) return '';
+    const date = new Date(dateTimeString);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+
+  public isToday(): boolean {
+    const today = this.formatDate(new Date());
+    return this.selectedDate === today;
+  }
+
+  public goToToday(): void {
+    this.selectedDate = this.formatDate(new Date());
+    this.loadDailySummary();
+  }
+
+  private formatDate(date: Date): string {
+    return date.toISOString().split('T')[0];
+  }
+
+  public getProgressColor(): string {
+    if (this.progressPercentage >= 100) return 'bg-green-500';
+    if (this.progressPercentage >= 75) return 'bg-blue-500';
+    if (this.progressPercentage >= 50) return 'bg-yellow-500';
+    return 'bg-red-400';
+  }
+
+  public addQuickAmount(amount: number): void {
+    this.newWaterLog.amountOunces = amount;
+    this.addLog();
+  }
+
+  public getMath(): typeof Math {
+    return Math;
   }
 }

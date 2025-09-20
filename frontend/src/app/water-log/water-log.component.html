@@ -1,47 +1,200 @@
-<div class="container mx-auto p-4 pt-12">
-  <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg px-6 pt-6 pb-2">
+<div class="container mx-auto p-4 pt-8 max-w-lg">
+  <!-- Header with Title and Settings -->
+  <div class="text-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-800 mb-2">💧 Water Tracker</h1>
+    <div class="flex justify-center items-center gap-2 mb-4">
+      <input 
+        type="date" 
+        [(ngModel)]="selectedDate" 
+        (change)="loadLogsByDate()"
+        class="px-3 py-1 border rounded text-sm"
+      />
+      <button 
+        *ngIf="!isToday()" 
+        (click)="goToToday()"
+        class="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600"
+      >
+        Today
+      </button>
+      <button 
+        (click)="toggleSettings()"
+        class="px-3 py-1 bg-gray-500 text-white rounded text-sm hover:bg-gray-600"
+      >
+        ⚙️
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoading" class="text-center py-4">
+    <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Settings Panel -->
+  <div *ngIf="showSettings" class="bg-gray-50 rounded-lg p-4 mb-4 border">
+    <h3 class="font-bold text-gray-800 mb-3">Daily Goal Settings</h3>
+    <div class="flex items-center gap-2">
+      <input 
+        type="number" 
+        [(ngModel)]="newGoalAmount" 
+        class="flex-1 px-3 py-2 border rounded"
+        placeholder="Goal in ounces"
+        min="1"
+      />
+      <button 
+        (click)="updateGoal()"
+        class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+      >
+        Update
+      </button>
+      <button 
+        (click)="toggleSettings()"
+        class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Card -->
+  <div class="bg-white rounded-lg shadow-lg p-6" *ngIf="!isLoading">
+    
+    <!-- Progress Display -->
     <div class="text-center mb-6">
-      <h2 class="text-5xl font-bold text-blue-600">{{ dailyGoalOunces }} oz</h2>
-      <p class="mt-2 text-gray-600">Completed <span class="font-bold">{{ ((totalOunces / dailyGoalOunces) * 100) | number: '1.0-0' }}%</span> of your goal</p>
+      <div class="mb-4">
+        <span class="text-4xl font-bold text-gray-800">{{ totalOunces }}</span>
+        <span class="text-lg text-gray-600">/ {{ dailyGoalOunces }} oz</span>
+      </div>
+      
+      <!-- Progress Bar -->
+      <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
+        <div 
+          class="h-4 rounded-full transition-all duration-500 ease-out"
+          [class]="getProgressColor()"
+          [style.width.%]="getMath().min(progressPercentage, 100)"
+        ></div>
+      </div>
+      
+      <p class="text-sm text-gray-600">
+        <span class="font-bold">{{ progressPercentage }}%</span> of daily goal
+        <span *ngIf="progressPercentage >= 100" class="text-green-600 font-bold"> - Goal Achieved! 🎉</span>
+      </p>
     </div>
 
-    <button (click)="toggleView()"
-            class="w-full mb-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-      {{ showLogs ? 'Show Water' : 'Show Logs' }}
-    </button>
+    <!-- Quick Add Buttons -->
+    <div class="grid grid-cols-4 gap-2 mb-4">
+      <button 
+        (click)="addQuickAmount(8)" 
+        class="bg-blue-100 hover:bg-blue-200 text-blue-800 py-2 px-3 rounded text-sm font-medium"
+      >
+        8 oz
+      </button>
+      <button 
+        (click)="addQuickAmount(12)" 
+        class="bg-blue-100 hover:bg-blue-200 text-blue-800 py-2 px-3 rounded text-sm font-medium"
+      >
+        12 oz
+      </button>
+      <button 
+        (click)="addQuickAmount(16)" 
+        class="bg-blue-100 hover:bg-blue-200 text-blue-800 py-2 px-3 rounded text-sm font-medium"
+      >
+        16 oz
+      </button>
+      <button 
+        (click)="addQuickAmount(20)" 
+        class="bg-blue-100 hover:bg-blue-200 text-blue-800 py-2 px-3 rounded text-sm font-medium"
+      >
+        20 oz
+      </button>
+    </div>
 
+    <!-- Custom Amount Input -->
     <form (ngSubmit)="addLog()" class="mb-4">
-      <div class="flex items-center mb-4">
-        <input type="number" [(ngModel)]="newWaterLog.amountOunces" name="newLogOunces"
-               class="w-full px-4 py-2 border rounded mr-2" placeholder="Enter ounces" required>
-        <button type="submit"
-                class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
-          Add Water 
+      <div class="flex items-center gap-2">
+        <input 
+          type="number" 
+          [(ngModel)]="newWaterLog.amountOunces" 
+          name="newLogOunces"
+          class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+          placeholder="Custom amount (oz)" 
+          min="0.1"
+          step="0.1"
+          required
+        />
+        <button 
+          type="submit"
+          class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg transition-colors"
+          [disabled]="isLoading"
+        >
+          Add
         </button>
       </div>
     </form>
 
+    <!-- Toggle View Button -->
+    <button 
+      (click)="toggleView()"
+      class="w-full mb-4 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+    >
+      {{ showLogs ? '🌊 Show Water Visual' : '📋 Show Logs' }}
+    </button>
+
+    <!-- Logs View -->
     <div *ngIf="showLogs">
-      <h3 class="text-xl font-bold text-gray-800 mb-2">Water Logs</h3>
-      <ul>
-        <li *ngFor="let log of waterLogs" class="mb-2 flex justify-between items-center">
-          <span class="text-blue-600 font-bold">
-            {{ log.amountOunces }}
-            {{ log.amountOunces === 1 ? 'Ounce' : 'Ounces' }}
-          </span>
-          <button (click)="deleteLog(log.id)" 
-                  class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded text-sm">
-            Delete
+      <h3 class="text-lg font-bold text-gray-800 mb-3">
+        Today's Water Logs ({{ waterLogs.length }})
+      </h3>
+      
+      <div *ngIf="waterLogs.length === 0" class="text-center text-gray-500 py-8">
+        No water logs for this day yet. Start by adding some water! 💧
+      </div>
+      
+      <div *ngIf="waterLogs.length > 0" class="space-y-2 max-h-64 overflow-y-auto">
+        <div 
+          *ngFor="let log of waterLogs" 
+          class="flex justify-between items-center bg-gray-50 p-3 rounded-lg"
+        >
+          <div>
+            <span class="text-blue-600 font-bold text-lg">{{ log.amountOunces }} oz</span>
+            <div class="text-xs text-gray-500" *ngIf="log.loggedAt">
+              {{ formatTime(log.loggedAt) }}
+            </div>
+          </div>
+          <button 
+            (click)="deleteLog(log.id)" 
+            class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded text-sm transition-colors"
+          >
+            🗑️
           </button>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
 
-    <div *ngIf="!showLogs" class="flex justify-center items-center mb-2">
-      <div class="relative w-64 h-[420px] bg-gray-200 overflow-hidden mx-auto"
-            style="clip-path: path('M128 0 C128 0, 256 192, 256 288 A128 128 0 1 1 0 288 C0 192, 128 0, 128 0');">
-        <div class="absolute bottom-0 w-full bg-blue-500 transition-all duration-300 ease-in-out"
-              [style.height.%]="(totalOunces / dailyGoalOunces) * 100">
+    <!-- Water Visual -->
+    <div *ngIf="!showLogs" class="flex justify-center items-center">
+      <div class="relative w-48 h-80 bg-gradient-to-b from-gray-100 to-gray-200 overflow-hidden mx-auto rounded-full border-4 border-gray-300">
+        <!-- Water fill -->
+        <div 
+          class="absolute bottom-0 w-full transition-all duration-1000 ease-out rounded-full"
+          [class]="getProgressColor()"
+          [style.height.%]="getMath().min(progressPercentage, 100)"
+        >
+          <!-- Water animation waves -->
+          <div class="absolute top-0 left-0 w-full h-2 bg-white opacity-20 rounded-full animate-pulse"></div>
+        </div>
+        
+        <!-- Water level indicator -->
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="text-center">
+            <div class="text-2xl font-bold text-gray-700">{{ totalOunces }}</div>
+            <div class="text-sm text-gray-600">ounces</div>
+          </div>
         </div>
       </div>
     </div>

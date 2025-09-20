@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {WaterLog} from '../models/water-log.model';
+import {WaterLog, DailyGoal, DailySummary} from '../models/water-log.model';
 import {environment} from '../../../environments/environment';
 
 @Injectable({
@@ -16,6 +16,18 @@ export class WaterService {
     return this.http.get<WaterLog[]>(`${this.apiServerUrl}/tracker`);
   }
 
+  public getTodaysLogs(): Observable<WaterLog[]> {
+    return this.http.get<WaterLog[]>(`${this.apiServerUrl}/tracker/today`);
+  }
+
+  public getLogsByDate(date: string): Observable<WaterLog[]> {
+    return this.http.get<WaterLog[]>(`${this.apiServerUrl}/tracker/date/${date}`);
+  }
+
+  public getDailySummary(): Observable<DailySummary> {
+    return this.http.get<DailySummary>(`${this.apiServerUrl}/tracker/summary`);
+  }
+
   public addWaterLog(waterLog: WaterLog): Observable<WaterLog> {
     return this.http.post<WaterLog>(`${this.apiServerUrl}/tracker`, waterLog);
   }
@@ -24,4 +36,11 @@ export class WaterService {
     return this.http.delete<void>(`${this.apiServerUrl}/tracker/${logId}`);
   }
 
+  public getTodaysGoal(): Observable<DailyGoal> {
+    return this.http.get<DailyGoal>(`${this.apiServerUrl}/tracker/goal`);
+  }
+
+  public updateTodaysGoal(goalOunces: number): Observable<DailyGoal> {
+    return this.http.post<DailyGoal>(`${this.apiServerUrl}/tracker/goal`, { goalOunces });
+  }
 }

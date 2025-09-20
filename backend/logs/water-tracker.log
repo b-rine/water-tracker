@@ -1,0 +1,116 @@
+2025-09-20 14:20:37 [main] INFO  c.w.WaterTrackerApplicationTests - Starting WaterTrackerApplicationTests using Java 21.0.8 with PID 56023 (started by brian in /home/brian/projects/water-tracker/backend)
+2025-09-20 14:20:37 [main] INFO  c.w.WaterTrackerApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2025-09-20 14:20:38 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2025-09-20 14:20:38 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 11 ms. Found 0 JDBC repository interfaces.
+2025-09-20 14:20:38 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-09-20 14:20:38 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:file:./data/water_tracker user=SA
+2025-09-20 14:20:38 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-09-20 14:20:39 [main] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./data/water_tracker'
+2025-09-20 14:20:39 [main] INFO  c.w.WaterTrackerApplicationTests - Started WaterTrackerApplicationTests in 1.836 seconds (process running for 3.513)
+2025-09-20 14:20:39 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-09-20 14:20:39 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-09-20 14:20:51 [main] INFO  c.w.WaterTrackerApplicationTests - Starting WaterTrackerApplicationTests using Java 21.0.8 with PID 56236 (started by brian in /home/brian/projects/water-tracker/backend)
+2025-09-20 14:20:51 [main] INFO  c.w.WaterTrackerApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2025-09-20 14:20:51 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2025-09-20 14:20:51 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 13 ms. Found 0 JDBC repository interfaces.
+2025-09-20 14:20:51 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-09-20 14:20:52 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:file:./data/water_tracker user=SA
+2025-09-20 14:20:52 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-09-20 14:20:52 [main] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./data/water_tracker'
+2025-09-20 14:20:52 [main] INFO  c.w.WaterTrackerApplicationTests - Started WaterTrackerApplicationTests in 1.828 seconds (process running for 3.509)
+2025-09-20 14:20:52 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-09-20 14:20:52 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-09-20 14:21:13 [main] INFO  c.w.WaterTrackerApplication - Starting WaterTrackerApplication using Java 21.0.8 with PID 56558 (/home/brian/projects/water-tracker/backend/target/classes started by brian in /home/brian/projects/water-tracker/backend)
+2025-09-20 14:21:13 [main] INFO  c.w.WaterTrackerApplication - No active profile set, falling back to 1 default profile: "default"
+2025-09-20 14:21:14 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2025-09-20 14:21:14 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 9 ms. Found 0 JDBC repository interfaces.
+2025-09-20 14:21:14 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-09-20 14:21:14 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-09-20 14:21:14 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-09-20 14:21:14 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2025-09-20 14:21:14 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-09-20 14:21:14 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 624 ms
+2025-09-20 14:21:14 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-09-20 14:21:14 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:file:./data/water_tracker user=SA
+2025-09-20 14:21:14 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-09-20 14:21:14 [main] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./data/water_tracker'
+2025-09-20 14:21:14 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-09-20 14:21:14 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-09-20 14:21:14 [main] INFO  c.w.WaterTrackerApplication - Started WaterTrackerApplication in 1.465 seconds (process running for 1.653)
+2025-09-20 14:26:16 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-20 14:26:16 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-09-20 14:26:16 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-09-20 14:26:43 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-09-20 14:26:43 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-09-20 14:26:47 [main] INFO  c.w.WaterTrackerApplication - Starting WaterTrackerApplication using Java 21.0.8 with PID 59111 (/home/brian/projects/water-tracker/backend/target/classes started by brian in /home/brian/projects/water-tracker/backend)
+2025-09-20 14:26:47 [main] INFO  c.w.WaterTrackerApplication - No active profile set, falling back to 1 default profile: "default"
+2025-09-20 14:26:47 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2025-09-20 14:26:47 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 9 ms. Found 0 JDBC repository interfaces.
+2025-09-20 14:26:48 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-09-20 14:26:48 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-09-20 14:26:48 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-09-20 14:26:48 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.33]
+2025-09-20 14:26:48 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-09-20 14:26:48 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 679 ms
+2025-09-20 14:26:48 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-09-20 14:26:48 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:file:./data/water_tracker user=SA
+2025-09-20 14:26:48 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-09-20 14:26:48 [main] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./data/water_tracker'
+2025-09-20 14:26:48 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-09-20 14:26:48 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-09-20 14:26:48 [main] INFO  c.w.WaterTrackerApplication - Started WaterTrackerApplication in 1.563 seconds (process running for 1.745)
+2025-09-20 14:27:43 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-20 14:27:43 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-09-20 14:27:43 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-09-20 14:27:45 [http-nio-8080-exec-3] INFO  c.w.services.WaterLogService - Adding water log: 8 ounces at 2025-09-20T14:27:45.349707274
+2025-09-20 14:27:45 [http-nio-8080-exec-3] INFO  c.w.services.WaterLogService - Successfully added water log with ID: 0
+2025-09-20 14:27:46 [http-nio-8080-exec-5] INFO  c.w.services.WaterLogService - Adding water log: 12 ounces at 2025-09-20T14:27:46.563964206
+2025-09-20 14:27:46 [http-nio-8080-exec-5] INFO  c.w.services.WaterLogService - Successfully added water log with ID: 0
+2025-09-20 14:27:47 [http-nio-8080-exec-7] INFO  c.w.services.WaterLogService - Adding water log: 16 ounces at 2025-09-20T14:27:47.004198708
+2025-09-20 14:27:47 [http-nio-8080-exec-7] INFO  c.w.services.WaterLogService - Successfully added water log with ID: 0
+2025-09-20 14:27:47 [http-nio-8080-exec-9] INFO  c.w.services.WaterLogService - Adding water log: 20 ounces at 2025-09-20T14:27:47.653852068
+2025-09-20 14:27:47 [http-nio-8080-exec-9] INFO  c.w.services.WaterLogService - Successfully added water log with ID: 0
+2025-09-20 14:27:49 [http-nio-8080-exec-1] INFO  c.w.services.WaterLogService - Adding water log: 8 ounces at 2025-09-20T14:27:49.160830643
+2025-09-20 14:27:49 [http-nio-8080-exec-1] INFO  c.w.services.WaterLogService - Successfully added water log with ID: 0
+2025-09-20 14:27:49 [http-nio-8080-exec-3] INFO  c.w.services.WaterLogService - Adding water log: 8 ounces at 2025-09-20T14:27:49.782404267
+2025-09-20 14:27:49 [http-nio-8080-exec-3] INFO  c.w.services.WaterLogService - Successfully added water log with ID: 0
+2025-09-20 14:27:50 [http-nio-8080-exec-5] INFO  c.w.services.WaterLogService - Adding water log: 8 ounces at 2025-09-20T14:27:50.192280951
+2025-09-20 14:27:50 [http-nio-8080-exec-5] INFO  c.w.services.WaterLogService - Successfully added water log with ID: 0
+2025-09-20 14:27:50 [http-nio-8080-exec-7] INFO  c.w.services.WaterLogService - Adding water log: 8 ounces at 2025-09-20T14:27:50.339850838
+2025-09-20 14:27:50 [http-nio-8080-exec-7] INFO  c.w.services.WaterLogService - Successfully added water log with ID: 0
+2025-09-20 14:27:50 [http-nio-8080-exec-9] INFO  c.w.services.WaterLogService - Adding water log: 8 ounces at 2025-09-20T14:27:50.506103639
+2025-09-20 14:27:50 [http-nio-8080-exec-9] INFO  c.w.services.WaterLogService - Successfully added water log with ID: 0
+2025-09-20 14:27:50 [http-nio-8080-exec-1] INFO  c.w.services.WaterLogService - Adding water log: 8 ounces at 2025-09-20T14:27:50.692646502
+2025-09-20 14:27:50 [http-nio-8080-exec-1] INFO  c.w.services.WaterLogService - Successfully added water log with ID: 0
+2025-09-20 14:27:50 [http-nio-8080-exec-3] INFO  c.w.services.WaterLogService - Adding water log: 8 ounces at 2025-09-20T14:27:50.874791529
+2025-09-20 14:27:50 [http-nio-8080-exec-3] INFO  c.w.services.WaterLogService - Successfully added water log with ID: 0
+2025-09-20 14:27:51 [http-nio-8080-exec-5] INFO  c.w.services.WaterLogService - Adding water log: 8 ounces at 2025-09-20T14:27:51.042571462
+2025-09-20 14:27:51 [http-nio-8080-exec-5] INFO  c.w.services.WaterLogService - Successfully added water log with ID: 0
+2025-09-20 14:27:51 [http-nio-8080-exec-7] INFO  c.w.services.WaterLogService - Adding water log: 8 ounces at 2025-09-20T14:27:51.202527266
+2025-09-20 14:27:51 [http-nio-8080-exec-7] INFO  c.w.services.WaterLogService - Successfully added water log with ID: 0
+2025-09-20 14:27:56 [http-nio-8080-exec-1] INFO  c.w.services.WaterLogService - Deleting water log with ID: 13
+2025-09-20 14:27:56 [http-nio-8080-exec-1] INFO  c.w.services.WaterLogService - Successfully deleted water log with ID: 13
+2025-09-20 14:27:58 [http-nio-8080-exec-4] INFO  c.w.services.WaterLogService - Deleting water log with ID: 12
+2025-09-20 14:27:58 [http-nio-8080-exec-4] INFO  c.w.services.WaterLogService - Successfully deleted water log with ID: 12
+2025-09-20 14:27:59 [http-nio-8080-exec-7] INFO  c.w.services.WaterLogService - Deleting water log with ID: 11
+2025-09-20 14:27:59 [http-nio-8080-exec-7] INFO  c.w.services.WaterLogService - Successfully deleted water log with ID: 11
+2025-09-20 14:28:00 [http-nio-8080-exec-10] INFO  c.w.services.WaterLogService - Deleting water log with ID: 10
+2025-09-20 14:28:00 [http-nio-8080-exec-10] INFO  c.w.services.WaterLogService - Successfully deleted water log with ID: 10
+2025-09-20 14:28:02 [http-nio-8080-exec-3] INFO  c.w.services.WaterLogService - Deleting water log with ID: 9
+2025-09-20 14:28:02 [http-nio-8080-exec-3] INFO  c.w.services.WaterLogService - Successfully deleted water log with ID: 9
+2025-09-20 14:28:03 [http-nio-8080-exec-6] INFO  c.w.services.WaterLogService - Deleting water log with ID: 8
+2025-09-20 14:28:03 [http-nio-8080-exec-6] INFO  c.w.services.WaterLogService - Successfully deleted water log with ID: 8
+2025-09-20 14:28:03 [http-nio-8080-exec-9] INFO  c.w.services.WaterLogService - Deleting water log with ID: 7
+2025-09-20 14:28:03 [http-nio-8080-exec-9] INFO  c.w.services.WaterLogService - Successfully deleted water log with ID: 7
+2025-09-20 14:28:07 [http-nio-8080-exec-2] INFO  c.w.services.WaterLogService - Deleting water log with ID: 6
+2025-09-20 14:28:07 [http-nio-8080-exec-2] INFO  c.w.services.WaterLogService - Successfully deleted water log with ID: 6
+2025-09-20 14:28:08 [http-nio-8080-exec-5] INFO  c.w.services.WaterLogService - Deleting water log with ID: 5
+2025-09-20 14:28:08 [http-nio-8080-exec-5] INFO  c.w.services.WaterLogService - Successfully deleted water log with ID: 5
+2025-09-20 14:28:09 [http-nio-8080-exec-8] INFO  c.w.services.WaterLogService - Deleting water log with ID: 4
+2025-09-20 14:28:09 [http-nio-8080-exec-8] INFO  c.w.services.WaterLogService - Successfully deleted water log with ID: 4
+2025-09-20 14:28:10 [http-nio-8080-exec-1] INFO  c.w.services.WaterLogService - Deleting water log with ID: 3
+2025-09-20 14:28:10 [http-nio-8080-exec-1] INFO  c.w.services.WaterLogService - Successfully deleted water log with ID: 3
+2025-09-20 14:28:12 [http-nio-8080-exec-4] INFO  c.w.services.WaterLogService - Deleting water log with ID: 2
+2025-09-20 14:28:12 [http-nio-8080-exec-4] INFO  c.w.services.WaterLogService - Successfully deleted water log with ID: 2
+2025-09-20 14:28:14 [http-nio-8080-exec-7] INFO  c.w.services.WaterLogService - Deleting water log with ID: 1
+2025-09-20 14:28:14 [http-nio-8080-exec-7] INFO  c.w.services.WaterLogService - Successfully deleted water log with ID: 1

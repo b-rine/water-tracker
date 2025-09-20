@@ -15,6 +15,15 @@ public class WaterLogRowMapper implements RowMapper<WaterLog> {
         WaterLog log = new WaterLog();
         log.setId(rs.getInt("id"));
         log.setAmountOunces(rs.getBigDecimal("ounces"));
+        
+        // Handle timestamp columns
+        if (rs.getTimestamp("logged_at") != null) {
+            log.setLoggedAt(rs.getTimestamp("logged_at").toLocalDateTime());
+        }
+        if (rs.getDate("log_date") != null) {
+            log.setLogDate(rs.getDate("log_date").toLocalDate());
+        }
+        
         return log;
     }
 }
