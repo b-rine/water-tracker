@@ -1,4 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
+  useLocalStorage: false,
   apiBaseUrl: 'http://localhost:8080'
 };
