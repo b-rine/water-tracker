@@ -74,9 +74,9 @@
       <!-- Progress Bar -->
       <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
         <div 
-          class="h-4 rounded-full transition-all duration-500 ease-out"
+          class="h-4 rounded-full"
           [class]="getProgressColor()"
-          [style.width.%]="getMath().min(progressPercentage, 100)"
+          [style.width.%]="getMath().min(animatedProgressPercentage, 100)"
         ></div>
       </div>
       
@@ -181,9 +181,9 @@
       <div class="relative w-48 h-80 bg-gradient-to-b from-gray-100 to-gray-200 overflow-hidden mx-auto rounded-full border-4 border-gray-300">
         <!-- Water fill -->
         <div 
-          class="absolute bottom-0 w-full transition-all duration-1000 ease-out rounded-full"
+          class="absolute bottom-0 w-full rounded-full"
           [class]="getProgressColor()"
-          [style.height.%]="getMath().min(progressPercentage, 100)"
+          [style.height.%]="getMath().min(animatedProgressPercentage, 100)"
         >
           <!-- Water animation waves -->
           <div class="absolute top-0 left-0 w-full h-2 bg-white opacity-20 rounded-full animate-pulse"></div>
@@ -198,14 +198,5 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Subtle source code link -->
-  <div class="text-center text-xs text-gray-400 mt-6">
-    <a href="https://github.com/yourusername/water-tracker" 
-       target="_blank"
-       class="hover:text-gray-600 transition-colors">
-      View Source Code
-    </a>
   </div>
 </div>

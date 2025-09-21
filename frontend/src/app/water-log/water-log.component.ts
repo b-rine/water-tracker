@@ -22,10 +22,12 @@ export class WaterLogComponent implements OnInit {
   public newWaterLog: WaterLog = { id: 0, amountOunces: 0 };
   public totalOunces: number = 0;
   public progressPercentage: number = 0;
+  public animatedProgressPercentage: number = 0;
   public selectedDate: string = '';
   public isLoading: boolean = false;
   public errorMessage: string = '';
   public newGoalAmount: number = 64;
+  private animationInProgress: boolean = false;
 
   constructor(private waterService: WaterService) {
     this.selectedDate = this.formatDate(new Date());
@@ -45,6 +47,27 @@ export class WaterLogComponent implements OnInit {
         this.dailyGoal = summary.goal;
         this.totalOunces = summary.totalOunces;
         this.progressPercentage = summary.progressPercentage;
+        this.animatedProgressPercentage = summary.progressPercentage; // Initialize animated value
+        this.dailyGoalOunces = summary.goal.goalOunces;
+        this.newGoalAmount = summary.goal.goalOunces;
+        this.isLoading = false;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.errorMessage = 'Failed to load daily summary';
+        this.isLoading = false;
+        console.error('Error loading summary:', error);
+      }
+    });
+  }
+
+  private loadDailySummaryWithoutAnimation(): void {
+    this.waterService.getDailySummary().subscribe({
+      next: (summary: DailySummary) => {
+        this.waterLogs = summary.logs;
+        this.dailyGoal = summary.goal;
+        this.totalOunces = summary.totalOunces;
+        this.progressPercentage = summary.progressPercentage;
+        // Don't update animatedProgressPercentage - let animation continue
         this.dailyGoalOunces = summary.goal.goalOunces;
         this.newGoalAmount = summary.goal.goalOunces;
         this.isLoading = false;
@@ -65,6 +88,7 @@ export class WaterLogComponent implements OnInit {
       next: (logs: WaterLog[]) => {
         this.waterLogs = logs;
         this.calculateTotalOunces();
+        this.animatedProgressPercentage = this.progressPercentage; // Initialize animated value
         this.isLoading = false;
       },
       error: (error: HttpErrorResponse) => {
@@ -83,13 +107,31 @@ export class WaterLogComponent implements OnInit {
     this.isLoading = true;
     this.errorMessage = '';
 
+    // Calculate the new totals locally for smooth animation
+    const newTotalOunces = this.totalOunces + this.newWaterLog.amountOunces;
+    const newProgressPercentage = this.dailyGoalOunces > 0 ? 
+      Math.round((newTotalOunces / this.dailyGoalOunces) * 100) : 0;
+
+    // Update the displayed values immediately
+    this.totalOunces = newTotalOunces;
+    this.progressPercentage = newProgressPercentage;
+
+    // Start the smooth animation
+    this.animateWaterLevel(newProgressPercentage);
+
     this.waterService.addWaterLog(this.newWaterLog).subscribe({
       next: (response: WaterLog) => {
-        // Reload the daily summary to get updated totals
-        this.loadDailySummary();
+        // Reload the daily summary to sync with server (but don't animate again)
+        this.loadDailySummaryWithoutAnimation();
         this.newWaterLog = { id: 0, amountOunces: 0 };
       },
       error: (error: HttpErrorResponse) => {
+        // Revert the optimistic update on error
+        this.totalOunces = this.totalOunces - this.newWaterLog.amountOunces;
+        this.progressPercentage = this.dailyGoalOunces > 0 ? 
+          Math.round((this.totalOunces / this.dailyGoalOunces) * 100) : 0;
+        this.animatedProgressPercentage = this.progressPercentage;
+        
         this.errorMessage = 'Failed to add water log';
         this.isLoading = false;
       }
@@ -101,13 +143,39 @@ export class WaterLogComponent implements OnInit {
       return;
     }
 
+    // Find the log to get its amount for optimistic update
+    const logToDelete = this.waterLogs.find(log => log.id === logId);
+    if (!logToDelete) {
+      this.errorMessage = 'Log not found';
+      return;
+    }
+
     this.isLoading = true;
+
+    // Calculate the new totals locally for smooth animation
+    const newTotalOunces = this.totalOunces - logToDelete.amountOunces;
+    const newProgressPercentage = this.dailyGoalOunces > 0 ? 
+      Math.round((newTotalOunces / this.dailyGoalOunces) * 100) : 0;
+
+    // Update the displayed values immediately
+    this.totalOunces = newTotalOunces;
+    this.progressPercentage = newProgressPercentage;
+
+    // Start the smooth animation
+    this.animateWaterLevel(newProgressPercentage);
+
     this.waterService.deleteWaterLog(logId).subscribe({
       next: () => {
-        // Reload the daily summary to get updated totals
-        this.loadDailySummary();
+        // Reload the daily summary to sync with server (but don't animate again)
+        this.loadDailySummaryWithoutAnimation();
       },
       error: (error: HttpErrorResponse) => {
+        // Revert the optimistic update on error
+        this.totalOunces = this.totalOunces + logToDelete.amountOunces;
+        this.progressPercentage = this.dailyGoalOunces > 0 ? 
+          Math.round((this.totalOunces / this.dailyGoalOunces) * 100) : 0;
+        this.animatedProgressPercentage = this.progressPercentage;
+        
         this.errorMessage = 'Failed to delete water log';
         this.isLoading = false;
       }
@@ -183,5 +251,34 @@ export class WaterLogComponent implements OnInit {
 
   public getMath(): typeof Math {
     return Math;
+  }
+
+  private animateWaterLevel(targetPercentage: number): void {
+    if (this.animationInProgress) return;
+    
+    this.animationInProgress = true;
+    const startPercentage = this.animatedProgressPercentage;
+    const difference = targetPercentage - startPercentage;
+    const duration = 1000; // 1 second animation
+    const startTime = Date.now();
+
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Use easeOutCubic for smooth animation
+      const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+      
+      this.animatedProgressPercentage = startPercentage + (difference * easeOutCubic);
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        this.animatedProgressPercentage = targetPercentage;
+        this.animationInProgress = false;
+      }
+    };
+
+    requestAnimationFrame(animate);
   }
 }
