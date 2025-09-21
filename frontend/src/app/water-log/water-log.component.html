@@ -178,19 +178,43 @@
 
     <!-- Water Visual -->
     <div *ngIf="!showLogs" class="flex justify-center items-center">
-      <div class="relative w-48 h-80 bg-gradient-to-b from-gray-100 to-gray-200 overflow-hidden mx-auto rounded-full border-4 border-gray-300">
-        <!-- Water fill -->
-        <div 
-          class="absolute bottom-0 w-full rounded-full"
-          [class]="getProgressColor()"
-          [style.height.%]="getMath().min(animatedProgressPercentage, 100)"
-        >
-          <!-- Water animation waves -->
-          <div class="absolute top-0 left-0 w-full h-2 bg-white opacity-20 rounded-full animate-pulse"></div>
-        </div>
+      <div class="relative">
+        <svg width="256" height="420" viewBox="0 0 256 420" class="mx-auto">
+          <!-- Define the water droplet shape -->
+          <defs>
+            <clipPath id="dropletClip">
+              <path d="M128 0 C128 0, 256 192, 256 288 A128 128 0 1 1 0 288 C0 192, 128 0, 128 0" />
+            </clipPath>
+          </defs>
+          
+          <!-- Background droplet shape -->
+          <path d="M128 0 C128 0, 256 192, 256 288 A128 128 0 1 1 0 288 C0 192, 128 0, 128 0" 
+                fill="#e5e7eb" 
+                stroke="#d1d5db" 
+                stroke-width="2"/>
+          
+          <!-- Water fill -->
+          <rect x="0" 
+                [attr.y]="420 - (420 * getMath().min(animatedProgressPercentage, 100) / 100)"
+                width="256" 
+                [attr.height]="420 * getMath().min(animatedProgressPercentage, 100) / 100"
+                [attr.class]="'water-fill-svg ' + getProgressColor()"
+                clip-path="url(#dropletClip)">
+          </rect>
+          
+          <!-- Water wave animation -->
+          <rect x="0" 
+                [attr.y]="420 - (420 * getMath().min(animatedProgressPercentage, 100) / 100)"
+                width="256" 
+                height="4"
+                fill="rgba(255, 255, 255, 0.3)"
+                clip-path="url(#dropletClip)"
+                class="animate-pulse">
+          </rect>
+        </svg>
         
         <!-- Water level indicator -->
-        <div class="absolute inset-0 flex items-center justify-center">
+        <div class="absolute inset-0 flex items-center justify-center pt-16">
           <div class="text-center">
             <div class="text-2xl font-bold text-gray-700">{{ totalOunces }}</div>
             <div class="text-sm text-gray-600">ounces</div>

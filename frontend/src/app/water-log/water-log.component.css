@@ -1,0 +1,16 @@
+/* SVG water fill colors */
+.water-fill-svg.bg-green-500 {
+  fill: #10b981;
+}
+
+.water-fill-svg.bg-blue-500 {
+  fill: #3b82f6;
+}
+
+.water-fill-svg.bg-yellow-500 {
+  fill: #eab308;
+}
+
+.water-fill-svg.bg-red-400 {
+  fill: #f87171;
+}

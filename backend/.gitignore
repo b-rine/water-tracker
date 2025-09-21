@@ -3,6 +3,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+data/
+logs/
 
 ### STS ###
 .apt_generated
@@ -31,4 +33,28 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Environment Variables ###
 .env
+.env.local
+.env.production
+.env.development
+application-local.properties
+application-dev.properties
+
+### OS ###
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+### Temporary files ###
+*.tmp
+*.temp
+*~
+
+### Log files ###
+*.log
