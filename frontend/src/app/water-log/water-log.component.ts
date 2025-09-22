@@ -28,6 +28,7 @@ export class WaterLogComponent implements OnInit {
   public errorMessage: string = '';
   public newGoalAmount: number = 64;
   private animationInProgress: boolean = false;
+  private targetProgressPercentage: number = 0;
 
   constructor(private waterService: WaterService) {
     this.selectedDate = this.formatDate(new Date());
@@ -48,6 +49,7 @@ export class WaterLogComponent implements OnInit {
         this.totalOunces = summary.totalOunces;
         this.progressPercentage = summary.progressPercentage;
         this.animatedProgressPercentage = summary.progressPercentage; // Initialize animated value
+        this.targetProgressPercentage = summary.progressPercentage; // Initialize target value
         this.dailyGoalOunces = summary.goal.goalOunces;
         this.newGoalAmount = summary.goal.goalOunces;
         this.isLoading = false;
@@ -89,6 +91,7 @@ export class WaterLogComponent implements OnInit {
         this.waterLogs = logs;
         this.calculateTotalOunces();
         this.animatedProgressPercentage = this.progressPercentage; // Initialize animated value
+        this.targetProgressPercentage = this.progressPercentage; // Initialize target value
         this.isLoading = false;
       },
       error: (error: HttpErrorResponse) => {
@@ -131,6 +134,7 @@ export class WaterLogComponent implements OnInit {
         this.progressPercentage = this.dailyGoalOunces > 0 ? 
           Math.round((this.totalOunces / this.dailyGoalOunces) * 100) : 0;
         this.animatedProgressPercentage = this.progressPercentage;
+        this.targetProgressPercentage = this.progressPercentage;
         
         this.errorMessage = 'Failed to add water log';
         this.isLoading = false;
@@ -175,6 +179,7 @@ export class WaterLogComponent implements OnInit {
         this.progressPercentage = this.dailyGoalOunces > 0 ? 
           Math.round((this.totalOunces / this.dailyGoalOunces) * 100) : 0;
         this.animatedProgressPercentage = this.progressPercentage;
+        this.targetProgressPercentage = this.progressPercentage;
         
         this.errorMessage = 'Failed to delete water log';
         this.isLoading = false;
@@ -254,11 +259,16 @@ export class WaterLogComponent implements OnInit {
   }
 
   private animateWaterLevel(targetPercentage: number): void {
-    if (this.animationInProgress) return;
+    // If animation is in progress, update the target and let current animation continue to new target
+    if (this.animationInProgress) {
+      // Just update the target - the current animation will smoothly transition to the new target
+      this.targetProgressPercentage = targetPercentage;
+      return;
+    }
     
     this.animationInProgress = true;
+    this.targetProgressPercentage = targetPercentage;
     const startPercentage = this.animatedProgressPercentage;
-    const difference = targetPercentage - startPercentage;
     const duration = 1000; // 1 second animation
     const startTime = Date.now();
 
@@ -266,15 +276,18 @@ export class WaterLogComponent implements OnInit {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
       
+      // Calculate current difference to target (may have changed during animation)
+      const currentDifference = this.targetProgressPercentage - startPercentage;
+      
       // Use easeOutCubic for smooth animation
       const easeOutCubic = 1 - Math.pow(1 - progress, 3);
       
-      this.animatedProgressPercentage = startPercentage + (difference * easeOutCubic);
+      this.animatedProgressPercentage = startPercentage + (currentDifference * easeOutCubic);
       
       if (progress < 1) {
         requestAnimationFrame(animate);
       } else {
-        this.animatedProgressPercentage = targetPercentage;
+        this.animatedProgressPercentage = this.targetProgressPercentage;
         this.animationInProgress = false;
       }
     };
